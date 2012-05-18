@@ -1,0 +1,37 @@
+<sect1 xmlns="http://docbook.org/ns/docbook"
+       xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>2 - quartz 2d</title>
+    <para>quartz 2d提供了图形上下文（graphics context）支持绘制，图形上下文封装了目标画布（canvas）以及线和形状等图形对象和path（画布上的图形对象的集合）；并提供了CGContextSetLineWidth(), CGContexSetStrokeColorWithColor(), CGContexSetFillColorWithColor()等设置图形对象的属性（如线（包括形状的轮廓线）的宽度，线的颜色，形状的填充色等），以及CGContextAdd...()将图形对象加入path，和CGContextStrokePath(), CGContextDrawPath()最终将path中的图形对象绘制到画布上。通常绘制总在view（UIView）的drawRect:方法中进行并在其中通过UIGraphicsGetCurrentContext()获取当前view的图形上下文，而通过view的setNeedsDisplay...方法指示view需要重绘（以及需要重绘的部分）。此外，quartz 2d中的颜色的r, g, b, a(lpha)值均为0～1之间的浮点数，坐标系统（CGPoint, CGSize, CGRect等）也均用浮点数。</para>
+    <programlisting><![CDATA[
+    CGContextRef UIGraphicsGetCurrentContext();
+    void CGContextSetLineWidth(CGContextRef context, CGFloat width);
+    void CGContextSetStrokeColorWithColor(CGContextRef context,
+                                          CGColorRef color);
+    void CGContextSetFillColorWithColor(CGContextRef context, CGColorRef color);
+    void CGContextMoveToPoint(CGContextRef context, CGFloat x, CGFloat y);
+    void CGContextAddLineToPoint(CGContextRef context, CGFloat x, CGFloat y);
+    void CGContextAddRect(CGContextRef context, CGRect rect);
+    void CGContextAddEllipseInRect(CGContextRef context, CGRect rect);
+    void CGContextStrokePath(CGContextRef context);
+    void CGContextDrawPath(CGContextRef context, CGPathDrawingMode mode);
+
+    CGPoint CGPointMake (CGFloat x, CGFloat y);
+    CGRect CGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height);
+    CGSize CGSizeMake(CGFloat width, CGFloat height);
+
+    UIColor:
+        + (UIColor *) colorWithRed: (CGFloat)red
+                             green: (CGFloat)green
+                              blue: (CGFloat)blue
+                             alpha: (CGFloat)alpha;
+        + (UIColor *) redColor;
+
+    UIView:
+        - (void) drawRect: (CGRect)rect;
+        - (void) setNeedsDisplay;
+        - (void) setNeedsDisplayInRect: (CGRect)rect;
+
+    UIImage:
+        - (void) drawAtPoint: (CGPoint)point;
+    ]]></programlisting>
+</sect1>
